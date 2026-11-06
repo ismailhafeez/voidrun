@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07111e" />
+  <title>VOIDRUN // Forbidden Sector</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="game-shell">
+    <canvas id="game"></canvas>
+    <div class="grain"></div>
+    <div class="scanlines"></div>
+    <div class="round-intro" id="round-intro"><span id="round-number">ROUND 01</span><i id="round-detail">HOSTILES INBOUND</i></div>
+
+    <section class="hud" id="hud" aria-label="Flight telemetry">
+      <div class="hud-top">
+        <div class="brand"><span class="brand-mark">V</span><div><b>VOIDRUN</b><small>ESCAPE THE FORBIDDEN SECTOR</small></div></div>
+        <div class="mission"><span class="live-dot"></span><span id="mission-state">COMBAT AIRSPACE</span><i>//</i><span id="wave-label">WAVE 01 / 03</span></div>
+        <div class="cam-pill"><span class="tiny-icon">◉</span><span id="camera-label">COPILOT VIEW</span><kbd>V</kbd></div>
+      </div>
+      <div class="hud-side left">
+        <div class="stat-label">HULL INTEGRITY <strong id="hull-value">100%</strong></div>
+        <div class="meter hull-meter"><i id="hull-meter"></i></div>
+        <div class="stat-label shield-label">SHIELD <strong id="shield-value">100%</strong></div>
+        <div class="meter shield-meter"><i id="shield-meter"></i></div>
+        <div class="squad"><span class="squad-symbol">✦</span><div><small>ALLIED WING</small><b id="wing-value">3 / 3</b></div></div>
+      </div>
+      <div class="hud-side right">
+        <div class="threat-head"><span>SECTOR THREATS</span><b id="enemy-count">00</b></div>
+        <div class="threat-bars" id="threat-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="target-card"><small>ACTIVE TARGET</small><strong id="target-name">NONE</strong><span id="target-status">SCANNING...</span></div>
+      </div>
+      <div class="reticle" id="reticle"><span></span><i></i><b></b></div>
+      <div class="mini-hud"><small>FLIGHT VECTOR</small><span class="mini-compass"><i></i></span><b>09</b><span class="mini-alt">ALT&nbsp; 8.4</span><span class="mini-link"><i></i> LINK STABLE</span></div>
+      <aside class="comms-panel" id="comms-panel" aria-live="polite">
+        <div class="comms-photo"><svg viewBox="0 0 80 80" role="img" aria-label="Pilot silhouette"><rect width="80" height="80" fill="#172632"/><path d="M7 80c2-17 13-25 24-29h18c13 4 22 13 24 29" fill="#03070b"/><path d="M22 40c-5-3-7-10-5-20C19 8 29 3 40 3s21 5 23 17c2 10 0 17-5 20l-3 11H25z" fill="#05090d"/><path d="M21 22c4-9 11-13 19-13 9 0 15 4 19 13l-3 12c-5 4-10 6-16 6s-12-2-16-6z" fill="#263a46"/><path d="M23 24c6-5 11-7 17-7s11 2 17 7l-2 8c-4 3-9 4-15 4s-11-1-15-4z" fill="#060c11"/><path d="M29 48h22l7 15H22z" fill="#111c24"/><path d="M36 47h8l4 15H32z" fill="#48c8d8" opacity=".55"/></svg><span class="photo-scan"></span></div>
+        <div class="comms-copy"><div class="comms-head"><b id="comms-callsign">KITE</b><span id="comms-channel">INCOMING // WING</span></div><p id="comms-message">I'm with you. Keep your nose up.</p></div>
+        <span class="comms-bars"><i></i><i></i><i></i><i></i><i></i></span>
+      </aside>
+      <div class="bottom-hud">
+        <div class="weapon"><span class="weapon-icon">⊕</span><div><small>PRIMARY</small><b>TWIN PULSE <i>∞</i></b></div></div>
+        <div class="center-readout"><span id="speed-readout">SPEED <b>840</b></span><span class="separator">·</span><span>SECTOR <b>09</b></span></div>
+        <div class="abilities">
+          <div class="ability"><kbd>SHIFT</kbd><span class="ability-glyph">↯</span><div><small>AFTERBURN</small><div class="ability-meter"><i id="dash-meter"></i></div></div></div>
+          <div class="ability"><kbd>X</kbd><span class="ability-glyph roll-glyph">↻</span><div><small>SOMERSAULT</small><div class="ability-meter"><i id="roll-meter"></i></div></div></div>
+        </div>
+      </div>
+      <div class="damage-flash" id="damage-flash"></div>
+    </section>
+
+    <section class="screen active" id="title-screen">
+      <div class="title-kicker"><span></span> UNCHARTED SPACE // NO SIGNAL OUT</div>
+      <h1>THE VOID<br><em>RUN</em></h1>
+      <p class="title-copy" id="title-copy">Three enemy wings stand between you and open space.<br>Break through. Survive the guardian. Get your crew home.</p>
+      <button class="start-button" id="start-button"><span>ENGAGE FLIGHT</span><b>→</b></button>
+      <div class="title-controls"><span><kbd>W A S D</kbd> STEER</span><span><kbd>SPACE</kbd> FIRE</span><span><kbd>SHIFT</kbd> DASH</span><span><kbd>X</kbd> SOMERSAULT</span></div>
+      <div class="title-coordinates">N 14° 08'  //  SECTOR 09  //  CLASSIFIED</div>
+      <div class="title-orbit orbit-one"></div><div class="title-orbit orbit-two"></div>
+    </section>
+
+    <section class="screen result-screen" id="result-screen">
+      <div class="result-content"><div class="result-kicker" id="result-kicker">MISSION REPORT // SECTOR 09</div><h2 id="result-title">WING<br><em>BREACHED</em></h2><p id="result-copy">The corridor is clear. Keep moving.</p><div class="result-stats"><span>HOSTILES DOWN <b id="kills-value">00</b></span><span>HULL REMAINING <b id="final-hull">100%</b></span><span>WING SURVIVORS <b id="final-wing">03</b></span></div><button class="start-button" id="result-button"><span>CONTINUE FLIGHT</span><b>→</b></button></div>
+    </section>
+
+    <section class="screen gameover" id="gameover-screen"><div class="gameover-box"><small>FLIGHT RECORDER // LAST TRANSMISSION</small><h2>LOST IN<br><em>THE VOID</em></h2><p>Your ship went dark in Forbidden Sector 09.</p><button class="start-button" id="retry-button"><span>REDEPLOY</span><b>↻</b></button></div></section>
+    <div class="toast" id="toast"></div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.js" onerror="document.getElementById('title-screen').insertAdjacentHTML('beforeend','<p class=\"title-copy\">Could not load 3D engine. Connect to the internet and reload.</p>')"></script>
+  <script src="game.js"></script>
+</body>
+</html>
